@@ -15,18 +15,36 @@ export default class View {
         this.modal.onClick((id, data) => this.editTodo(id, data));
 
         //this.filter = new Filter();
-        //this.filter.onKeyDown();
+        //this.filter.onKeyDown((t, d) => this.updateFiter(t, d));
 
         //this.filter.onKeyDown(this.updateFilter());
 
 
     }
-    
-    /*
-    updateFilter(){
-        this.filter.onKeyDown();    
+
+
+    updateFilter() {
+        var input, filter, table, tr, i, txtValue, descValue;
+        input = document.getElementById("searchQuery");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("table");
+        tr = table.getElementsByTagName("tr");
+        // Loop through results, hide missed results
+        for (i = 0; i < tr.length; i++) {
+            let title = tr[i].getElementsByTagName("td")[0];
+            let desc = tr[i].getElementsByTagName("td")[1];
+            if (title || desc) {
+                txtValue = title.textContent || title.innerText || title.innerHTML;
+                descValue = desc.textContent || desc.innerText || desc.innerHTML;
+                if (txtValue.toUpperCase().indexOf(filter) > -1 ||
+                    descValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
     }
-    */
 
     setModel(model) {
         this.model = model;

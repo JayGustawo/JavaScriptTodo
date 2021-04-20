@@ -61,4 +61,8 @@ export default class Model {
         localStorage.setItem('todos', JSON.stringify(this.todos));
     }
 
+    filterList(){
+        
+    }
+
 }

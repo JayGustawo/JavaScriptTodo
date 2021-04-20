@@ -6,6 +6,16 @@ export default class Filter {
         this.filter = input.value.toUpperCase();
         this.table = document.getElementById("table");
         this.tr = table.getElementsByTagName("tr");
+
+        this.listeners = [];
+    }
+
+    addListener(listener) {
+        this.listeners.push(listener);
+    }
+
+    trigger(params) {
+        this.listeners.forEach(listener => { listener(params); });
     }
 
     onKeyDown() {

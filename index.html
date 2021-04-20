@@ -56,15 +56,6 @@
     </div>
   </nav>
 
-  <!-- <button
-      type="button"
-      class="btn btn-primary"
-      data-bs-toggle="modal"
-      data-bs-target="#modal"
-    >
-      Launch demo modal
-    </button> -->
-
   <!-- Modal -->
   <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -162,49 +153,36 @@
   <script src="./js/index.js" type="module"></script>
 
   <script>
-      document.querySelectorAll('input[name="type"]').forEach((elem) => {
-        elem.addEventListener("change", (event) => {
-          var item = event.target.value;
-          console.log(item);
-          var tr = document.getElementById('table').getElementsByTagName('tr');
-          for (let i = 0; i < tr.length; i++) {
-            const row = tr[i];
-            switch (item) {
+    document.querySelectorAll('input[name="type"]').forEach((elem) => {
+      elem.addEventListener("change", (event) => {
+        var item = event.target.value;
+        var tr = document.getElementById('table').getElementsByTagName('tr');
+        for (let i = 0; i < tr.length - 1; i++) {
+          const row = tr[i + 1];
+          const boxCheck = row.children[2].querySelector("input[type='checkbox']").checked;
+
+          switch (item) {
             case "all":
               row.style.display = "";
               break;
             case "completed":
-              if (row.classList.contains('completedItem')) {
+              if (boxCheck) {
                 row.style.display = "";
               } else {
                 row.style.display = "none";
               }
               break;
             case "uncompleted":
-              if (!row.classList.contains('completedItem')) {
+              if (!boxCheck) {
                 row.style.display = "";
               } else {
                 row.style.display = "none";
               }
               break;
           }
-            
-          }
-        })
-      })
-
-    /*
-    var radio = document.radioForm.type;
-    var prev = null;
-    for(var i=0; i<radio.length; i++){
-      radio[i].addEventListener('change', function() {
-        if (this !== prev) {
-            prev = this;
- 
         }
-        console.log(this.value)
-    });
-    }*/
+      })
+    })
 
     function myFunction() {
       var input, filter, table, tr, i, txtValue, descValue;
