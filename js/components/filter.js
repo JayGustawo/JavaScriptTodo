@@ -1,42 +1,26 @@
 export default class Filter {
     constructor() {
-        var input, filter, table, tr;
-
         this.input = document.getElementById("searchQuery");
-        this.filter = input.value.toUpperCase();
         this.table = document.getElementById("table");
-        this.tr = table.getElementsByTagName("tr");
+        this.tr = this.table.getElementsByTagName("tr");
+        this.radios = document.querySelectorAll('input[name="type"]');
+        this.tr = document.getElementById('table').getElementsByTagName('tr');
 
-        this.listeners = [];
     }
 
-    addListener(listener) {
-        this.listeners.push(listener);
-    }
-
-    trigger(params) {
-        this.listeners.forEach(listener => { listener(params); });
-    }
-
-    onKeyDown() {
-
-        var i, txtValue, descValue;
-        this.input.onchange = () => {
-            // Loop through results, hide missed results
-            for (i = 0; i < tr.length; i++) {
-                let title = tr[i].getElementsByTagName("td")[0];
-                let desc = tr[i].getElementsByTagName("td")[1];
-                if (title || desc) {
-                    txtValue = title.textContent || title.innerText || title.innerHTML;
-                    descValue = desc.textContent || desc.innerText || desc.innerHTML;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1 ||
-                        descValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
+    onKeyup(callback) {
+        this.input.onkeyup = () => {
+            callback(this.input.value.toUpperCase());
         }
     }
+    onButtonClick(callback) {
+        this.radios.forEach((elem) => {
+            elem.addEventListener("change", (event) => {
+                this.item = event.target.value;
+                callback(this.item, this.tr);
+            })
+        })
+    }
+
+
 }

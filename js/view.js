@@ -14,19 +14,42 @@ export default class View {
         this.modal = new Modal();
         this.modal.onClick((id, data) => this.editTodo(id, data));
 
-        //this.filter = new Filter();
-        //this.filter.onKeyDown((t, d) => this.updateFiter(t, d));
-
-        //this.filter.onKeyDown(this.updateFilter());
-
+        this.filter = new Filter();
+        this.filter.onKeyup((query)=> this.applyFilter(query));
+        this.filter.onButtonClick((item,tr)=> this.filterCompleted(item,tr));
 
     }
 
+    filterCompleted(item,tr){
+        for (let i = 0; i < tr.length - 1; i++) {
+            const row = tr[i + 1];
+            const boxCheck = row.children[2].querySelector("input[type='checkbox']").checked;
+    
+            switch (item) {
+              case "all":
+                row.style.display = "";
+                break;
+              case "completed":
+                if (boxCheck) {
+                  row.style.display = "";
+                } else {
+                  row.style.display = "none";
+                }
+                break;
+              case "uncompleted":
+                if (!boxCheck) {
+                  row.style.display = "";
+                } else {
+                  row.style.display = "none";
+                }
+                break;
+            }
+          }
+    }
 
-    updateFilter() {
-        var input, filter, table, tr, i, txtValue, descValue;
-        input = document.getElementById("searchQuery");
-        filter = input.value.toUpperCase();
+
+    applyFilter(query) {
+        var table, tr, i, txtValue, descValue;
         table = document.getElementById("table");
         tr = table.getElementsByTagName("tr");
         // Loop through results, hide missed results
@@ -36,8 +59,8 @@ export default class View {
             if (title || desc) {
                 txtValue = title.textContent || title.innerText || title.innerHTML;
                 descValue = desc.textContent || desc.innerText || desc.innerHTML;
-                if (txtValue.toUpperCase().indexOf(filter) > -1 ||
-                    descValue.toUpperCase().indexOf(filter) > -1) {
+                if (txtValue.toUpperCase().indexOf(query) > -1 ||
+                    descValue.toUpperCase().indexOf(query) > -1) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
